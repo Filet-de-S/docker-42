@@ -23,8 +23,8 @@ CMD	./gogo.sh
 # -e:
 # SECRET
 # TAG
-# WORKERS
+# SLAVES
 # +add other options (optional) to file /cfg/options
-#
-# -docker logs mtlg -> to see connection info
-# -all cfg's will keep while updating a container ;)
+# 
+# docker exec tlgrx curl localhost:8888/stats
+# docker logs mtlg -> to see connection info

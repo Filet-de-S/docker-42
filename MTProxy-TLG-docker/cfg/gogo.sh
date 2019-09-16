@@ -31,15 +31,21 @@ if [ -f tag ]; then
 	fi
 fi
 
-if [ ! -z "$WORKERS" ]; then
-	echo $WORKERS > workers
+if [ ! -z "$SLAVES" ]; then
+	echo $SLAVES > slaves
+elif [ -f slaves ]; then
+	SLAVES=`cat slaves`
 else
-	WORKERS=2
+	SLAVES=2
 fi
+
+echo "slaves = $SLAVES"
 
 OPTIONS=""
 if [ -f options ]; then
 	OPTIONS=`cat options`
+	echo "using your add.options: $OPTIONS
+	"
 fi
 
 
@@ -54,4 +60,4 @@ https://t.me/proxy?server=$IP&port=443&secret=$SECRET
 
 curl -s https://core.telegram.org/getProxyConfig -o /opt/MTProxy/cfg/proxy-multi.conf
 
-exec /opt/MTProxy/objs/bin/mtproto-proxy -u root -p 8888 --http-stats -H 443 -S $SECRET --aes-pwd proxy-secret proxy-multi.conf -M $WORKERS $TAG_P $OPTIONS > /dev/null
+exec /opt/MTProxy/objs/bin/mtproto-proxy -u root -p 8888 --http-stats -H 443 -S $SECRET --aes-pwd proxy-secret proxy-multi.conf -M $SLAVES $TAG_P $OPTIONS > /dev/null
